@@ -1,0 +1,8 @@
+void AutoPopulateUpdateItems(int ID)
+{
+	items = Items[ID == input.ID];
+	itemLoc = Locations[ID == items.Locations];
+	locationID = itemLoc.ID;
+	// 	info locationID ;
+	openUrl("#form:Update_Item?Item_ID=" + items.ID + "&Item=" + items.ID + "&Location=" + items.Locations + "&Quantity=" + items.Quantity,"same window");
+}

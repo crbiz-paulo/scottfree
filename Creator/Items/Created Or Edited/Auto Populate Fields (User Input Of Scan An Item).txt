@@ -1,0 +1,8 @@
+item = Items[ID == input.For_Existing_Item_Only];
+if(input.For_Existing_Item_Only == item.ID)
+{
+	input.Item_Name = item.Item_Name;
+	input.Item_Brand = item.Item_Brand;
+	input.Description = item.Description;
+	input.Locations = item.Locations;
+}

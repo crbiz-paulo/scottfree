@@ -1,0 +1,13 @@
+hide QR_Code;
+hide Status;
+items = Items[ID == ID];
+for each  item in items
+{
+	itemQty = item.Quantity;
+	stockStatus = item.Status;
+	if(itemQty == 0)
+	{
+		input.Status = "Archived";
+	}
+	info itemQty + " " + stockStatus;
+}

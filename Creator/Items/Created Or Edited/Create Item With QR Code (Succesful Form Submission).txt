@@ -1,0 +1,3 @@
+generateQRcode = "<img src='http://api.qrserver.com/v1/create-qr-code/?format=png&size=400x400&data=" + input.ID + "'/>";
+item = Items[ID == input.ID];
+input.QR_Code = generateQRcode;

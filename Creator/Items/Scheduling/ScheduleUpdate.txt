@@ -1,0 +1,11 @@
+items = Items[ID == ID];
+for each  item in items
+{
+	itemQty = item.Quantity;
+	stockStatus = item.Status;
+	if(itemQty == 0)
+	{
+		item.Status="Archived";
+	}
+	info itemQty + " " + stockStatus;
+}
