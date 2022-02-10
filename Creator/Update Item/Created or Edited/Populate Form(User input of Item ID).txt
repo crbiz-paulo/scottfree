@@ -1,0 +1,22 @@
+if(input.Item_ID == null || Items[ID == input.Item_ID].count() == 0)
+{
+	input.Item = null;
+	input.Location = null;
+	input.Quantity = null;
+	input.Length_of_cut_fabric = null;
+	input.Qr_Code = null;
+	input.doesCutAlreadyExist = null;
+}
+else
+{
+	items = Items[ID == input.Item_ID];
+	input.Item = items.ID;
+	itemLoc = Locations[ID == items.Locations];
+	input.Location = itemLoc.ID;
+	input.Quantity = items.Quantity;
+	input.Length_of_cut_fabric = null;
+	if(Update_Item[Item_ID == input.Item_ID].count() > 0)
+	{
+		input.doesCutAlreadyExist = "true";
+	}
+}

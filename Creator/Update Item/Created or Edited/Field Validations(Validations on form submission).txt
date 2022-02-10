@@ -1,0 +1,21 @@
+item = Items[ID == input.Item_ID];
+if(Items[ID == input.Item_ID.toNumber()].count() == 0)
+{
+	alert "Item does not exist. Please input the correct Item ID.";
+	cancel submit;
+}
+if(item.Quantity == 0)
+{
+	alert "No more stocks available.";
+	cancel submit;
+}
+if(item.Quantity < input.Length_of_cut_fabric)
+{
+	alert "Exceeded the maximum quantity of item.";
+	cancel submit;
+}
+if(input.Length_of_cut_fabric == 0)
+{
+	alert "Input a correct cut amount.";
+	cancel submit;
+}
