@@ -1,0 +1,16 @@
+if(input.doesCutAlreadyExist == "true")
+{
+	updateItem = Update_Item[Item_ID == input.Item_ID];
+	updateID = updateItem.ID;
+	delete from Update_Item[ID == updateID];
+}
+items = Items[ID == input.Item_ID];
+items.Locations=input.Location;
+remainingQuantity = items.Quantity - input.Length_of_cut_fabric;
+items.Quantity=remainingQuantity;
+if(remainingQuantity == 0)
+{
+	items.Status="Archived";
+}
+input.Qr_Code = items.QR_Code;
+openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + items.ID,"new window");

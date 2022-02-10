@@ -1,0 +1,1 @@
+openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + input.Item_ID,"same window");

@@ -1,0 +1,5 @@
+hide Qr_Code;
+hide doesCutAlreadyExist;
+disable Item;
+disable Quantity;
+hide Item_ID;
