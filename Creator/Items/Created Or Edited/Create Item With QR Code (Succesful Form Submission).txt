@@ -1,3 +1,24 @@
+// generate qr code for the new item that will be added to creator
 generateQRcode = "<img src='http://api.qrserver.com/v1/create-qr-code/?format=png&size=400x400&data=" + input.ID + "'/>";
 item = Items[ID == input.ID];
 input.QR_Code = generateQRcode;
+//
+//subtract and update qty stock of fabric on crm products module
+item = zoho.crm.getRecordById("Products",input.crmID.toNumber());
+remainingStock = item.getJSON("Qty_in_Stock") - 1;
+itemMap = Map();
+itemMap.put("Qty_in_Stock",remainingStock);
+zoho.crm.updateRecord("Products",input.crmID.toNumber(),itemMap);
+//
+//save to crm cut fabric(Parts)
+itemLoc = Locations[ID == input.Locations];
+cutFabric = Map();
+cutFabric.put("Item_No",input.Item_No);
+cutFabric.put("Name",input.Item_Name);
+cutFabric.put("Location",itemLoc.Location);
+cutFabric.put("Quantity",input.Quantity);
+response = zoho.crm.createRecord("Parts",cutFabric);
+info response;
+//
+//direct user to the new item
+openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + input.ID,"same window");

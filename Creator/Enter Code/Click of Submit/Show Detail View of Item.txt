@@ -1,0 +1,11 @@
+itemNo = input.Enter_Code;
+existingSfStock = Items[Item_No == itemNo && Status == "In Stock"];
+if(existingSfStock.count() > 0)
+{
+	openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + existingSfStock.ID,"same window");
+}
+else
+{
+	stock = zoho.crm.searchRecords("Products","(Product_Code:equals:" + itemNo + ")");
+	openUrl("#form:Items?Item_Name=" + stock.getJSON("Product_Name") + "&Item_No=" + stock.getJSON("Product_Code") + "&crmID=" + stock.getJSON("id"),"same window");
+}

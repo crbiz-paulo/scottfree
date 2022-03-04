@@ -1,1 +1,21 @@
-openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + input.Item_ID,"same window");
+// Item no or ID
+scannedItem = input.Item_No;
+if(scannedItem.matches("[0-9]{19}"))
+{
+	// This is for the Qr code and it will direct to the detailed view
+	existingSfStock = Items[ID == scannedItem.toNumber()];
+	openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + existingSfStock.ID,"same window");
+	// 	openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/#Report:All_Items?Item_No=" + existingSfStock.Item_No,"same window");
+}
+else if(Items[Item_No == scannedItem && Status == "In Stock"].count() > 0)
+{
+	// Barcode that exist in sf stocks
+	existingSfStock = Items[Item_No == scannedItem && Status == "In Stock"];
+	// 	openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + existingSfStock.ID,"same window");
+	openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/#Report:All_Items?Item_No=" + existingSfStock.Item_No,"same window");
+}
+else
+{
+	stock = zoho.crm.searchRecords("Products","(Product_Code:equals:" + scannedItem + ")");
+	openUrl("#form:Items?Item_Name=" + stock.getJSON("Product_Name") + "&Item_No=" + stock.getJSON("Product_Code") + "&crmID=" + stock.getJSON("id"),"same window");
+}
