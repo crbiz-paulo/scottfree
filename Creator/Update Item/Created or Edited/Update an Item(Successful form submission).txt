@@ -1,16 +1,46 @@
-if(input.doesCutAlreadyExist == "true")
+// if(input.doesCutAlreadyExist == "true")
+// {
+// 	updateItem = Update_Item[Item_ID == input.Item_ID];
+// 	updateID = updateItem.ID;
+// 	delete from Update_Item[ID == updateID];
+// }
+item = Items[ID == input.Item_ID];
+itemLoc = Locations[ID == input.Location];
+item.Locations=input.Location;
+remainingQuantity = item.Quantity - input.Length_of_cut_fabric;
+item.Quantity=remainingQuantity;
+modItemNo = item.Item_No;
+if(remainingQuantity <= 0.5)
 {
-	updateItem = Update_Item[Item_ID == input.Item_ID];
-	updateID = updateItem.ID;
-	delete from Update_Item[ID == updateID];
+	item.Status="Archived";
 }
-items = Items[ID == input.Item_ID];
-items.Locations=input.Location;
-remainingQuantity = items.Quantity - input.Length_of_cut_fabric;
-items.Quantity=remainingQuantity;
-if(remainingQuantity == 0)
+input.Qr_Code = item.QR_Code;
+openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + item.ID,"new window");
+crmSearch = zoho.crm.searchRecords("Parts","(Item_No:equals:" + modItemNo + ")");
+sizeCrm = crmSearch.size();
+quantityCRMMap = Map();
+quantityCRMMap.put("Quantity",remainingQuantity);
+quantityCRMMap.put("Item_No",item.Item_No);
+quantityCRMMap.put("Name",item.Item_Name);
+quantityCRMMap.put("Location",itemLoc.Location);
+if(sizeCrm > 0)
 {
-	items.Status="Archived";
+	crmQuantity = crmSearch.get(0).get("Quantity");
+	crmID = crmSearch.get(0).get("id");
+	dataList = List();
+	dataMap = Map();
+	dataMap.put("Note_Content","Cut Lenght: " + input.Length_of_cut_fabric + "\n" + "Remaining Cut: " + remainingQuantity);
+	dataMap.put("Parent_Id",crmID);
+	dataMap.put("se_module","Parts");
+	noteMap = Map();
+	dataList.add(dataMap);
+	noteMap.put("data",dataList);
+	responsed = invokeurl
+	[
+		url :"https://www.zohoapis.com/crm/v2/Parts/" + crmID + "/Notes"
+		type :POST
+		parameters:noteMap + ""
+		connection:"zohoauth"
+	];
+	updateMap = zoho.crm.updateRecord("Parts",crmID.toNumber(),quantityCRMMap);
 }
-input.Qr_Code = items.QR_Code;
-openUrl("https://creatorapp.zoho.com/user1_demo5/scott-free-qr-scanner/record-summary/All_Items/" + items.ID,"new window");
